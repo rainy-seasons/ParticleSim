@@ -16,7 +16,7 @@ public:
 
 		shape.setPosition(position);
 		shape.setFillColor(color);
-		shape.setRadius(15);
+		shape.setRadius(8);
 	}
 
 	void Render(sf::RenderWindow& window)

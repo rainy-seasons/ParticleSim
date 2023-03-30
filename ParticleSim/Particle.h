@@ -1,27 +1,36 @@
 #pragma once
 #include "Body.h"
-class Particle
+class Particle : public sf::Drawable, public sf::Transformable
 {
-private:
-	sf::Vector2f position;
-	sf::Vector2f velocity;
-	sf::CircleShape shape;
-
 public:
-	Particle(float pos_x, float pos_y, float vel_x, float vel_y, sf::Color color)
-	{
-		position.x = pos_x;
-		position.y = pos_y;
+	Particle(unsigned int count) :
+		m_particles(count),
+		m_vertices(sf::Points, count) {};
 
-		velocity.x = vel_x;
-		velocity.y = vel_y;
-
-		shape.setPosition(position);
-		shape.setFillColor(color);
-		shape.setRadius(1);
-	}
-	void Render(sf::RenderWindow& window);
 	void Update(std::vector<Body>& bodies);
-	sf::Vector2f GetPosition();
-	void InvertVelocity();
+	void SetPosition();
+
+private:
+	struct nParticle
+	{
+		sf::Vector2f velocity;
+		sf::Vector2f accel;
+	};
+
+	sf::VertexArray m_vertices;
+	std::vector<nParticle> m_particles;
+
+	sf::Vector2f dist;
+	sf::Vector2f normalized_distance;
+
+	float hyp;
+	float inverse_distance;
+	float inverse_square;
+
+	virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const
+	{
+		states.transform *= getTransform();
+		states.texture = NULL;
+		target.draw(m_vertices, states);
+	}
 };

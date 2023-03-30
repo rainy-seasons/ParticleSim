@@ -1,52 +1,34 @@
 #include "Particle.h"
 
-void Particle::Render(sf::RenderWindow& window)
+// Sets the starting position for the particles. Reccommended to spread them out with rand()
+void Particle::SetPosition()
 {
-	shape.setPosition(position);
-	window.draw(shape);
+	for (std::size_t i = 0; i < m_particles.size(); i++)
+	{
+		m_vertices[i].position = sf::Vector2f(rand() % 300, rand() % 100);
+	}
 }
-
-sf::Vector2f Particle::GetPosition()
-{
-	return this->position;
-}
-
-void Particle::InvertVelocity()
-{
-	velocity.x = velocity.x * -1;
-	velocity.y = velocity.y * -1;
-}
-
 
 void Particle::Update(std::vector<Body>& bodies)
 {
-	for (auto body : bodies)
+	for (std::size_t i = 0; i < m_particles.size(); ++i)
 	{
-		float dist_x = body.GetPosition().x - position.x;
-		float dist_y = body.GetPosition().y - position.y;
-		float distance = sqrt((dist_x * dist_x) + (dist_y * dist_y)); // Pythagorean theorem to get distance between the body and particle
+		nParticle& p = m_particles[i];
 
-		float inverse_distance = 1.f / distance; // Inverse distance for preferring closer objects over farther ones
+		for (auto& body : bodies)
+		{
+			dist = body.GetPosition() - m_vertices[i].position; // distance between gravity source object and particle
+			hyp = sqrt((dist.x * dist.x) + (dist.y * dist.y)); // pythagorean theorem to find line between point and body
+			inverse_distance = 1.f / hyp;
 
-		float normalized_x = inverse_distance * dist_x;
-		float normalized_y = inverse_distance * dist_y;
+			normalized_distance = inverse_distance * dist;
 
-		float inverse_square = inverse_distance * inverse_distance; // Double the distance = 1/4th strength. 1/x * 1/x = ((1*1)/(x*x)) = 1/x^2
+			inverse_square = inverse_distance * inverse_distance; // Double the distance = 1/4th strength. 1/x * 1/x = ((1*1)/(x*x)) = 1/x^
+			p.accel = normalized_distance * body.GetStrenth() * inverse_square; // Get the acceleration using inverse square
 
-		// Acceleration using inverse square.
-		float accel_x = normalized_x * body.GetStrenth() * inverse_square;
-		float accel_y = normalized_y * body.GetStrenth() * inverse_square;
+			p.velocity += p.accel;
 
-		if (accel_x > 3)
-			accel_x = 3;
-		if (accel_y > 3)
-			accel_y = 3;
-
-		velocity.x += accel_x;
-		velocity.y += accel_y;
-
-
-		position.x += velocity.x;
-		position.y += velocity.y;
+			m_vertices[i].position += p.velocity;
+		}
 	}
 }

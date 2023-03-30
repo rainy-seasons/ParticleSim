@@ -15,29 +15,17 @@ int main()
 	FrameCounter.setFont(font);
 
 	// x_pos, y_pos, strength
-	Body body(200, 300, 100);
-	Body body2(640, 200, 300);
+	Body body(400, 450, 200);
+	Body body2(540, 200, 100);
 
 	std::vector<Body> Bodies;
 
 	Bodies.push_back(body);
 	Bodies.push_back(body2);
 
+	Particle particles(25000);
+	particles.SetPosition();
 
-	std::vector<Particle> particles;
-	for (int i = 0; i < 3000; i++) // # of particles
-	{
-		sf::Color color;
-		if (i % 2 == 0)
-		{
-			color = sf::Color::Green;
-		}
-		else
-		{
-			color = sf::Color::Red;
-		}
-		particles.push_back(Particle(rand() % 100, rand() % 100, rand() % 3, 0, color));
-	}
 
 	if (!font.loadFromFile("verdana.ttf"))
 	{
@@ -61,29 +49,15 @@ int main()
 
 		window.clear();
 
-
-
-		for (auto particle = particles.begin(); particle != particles.end();)
-		{
-			particle->Update(Bodies);
-			particle->Render(window);
-			if (particle->GetPosition().x > SCREEN_WIDTH || particle->GetPosition().x < -1 || particle->GetPosition().y > SCREEN_HEIGHT || particle->GetPosition().y < -1)
-			{
-				// The InvertVelocity() call makes them bounce off the edges of the screen.
-				// The erase() call makes them not bounce but deletes them if they fly off.
-				particle->InvertVelocity();
-				//particle = particles.erase(particle);
-			}
-			// Wrap this in an else statement if using particles.erase(particle)
-			particle++;
-		}
+		particles.Update(Bodies);
+		window.draw(particles);
 
 		for (auto& body : Bodies)
 		{
 			body.Render(window);
 		}
-		window.draw(FrameCounter);
 
+		window.draw(FrameCounter);
 		window.display();
 	}
 }
