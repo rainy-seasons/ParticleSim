@@ -23,7 +23,7 @@ void Particle::Update(std::vector<Body>& bodies)
 
 			normalized_distance = inverse_distance * dist;
 
-			inverse_square = inverse_distance * inverse_distance; // Double the distance = 1/4th strength. 1/x * 1/x = ((1*1)/(x*x)) = 1/x^
+			inverse_square = inverse_distance * inverse_distance; // Double the distance = 1/4th strength. 1/x * 1/x = ((1*1)/(x*x)) = 1/x^2
 			p.accel = normalized_distance * body.GetStrenth() * inverse_square; // Get the acceleration using inverse square
 
 			p.velocity += p.accel;
