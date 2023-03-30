@@ -13,7 +13,7 @@
 * Look at `Particle.cpp` to see the implementation.
 
 #### Low quality demo
-https://user-images.githubusercontent.com/6244191/228908747-27271cac-f788-4923-8099-dd8b489293c7.mp4
+https://user-images.githubusercontent.com/6244191/228909330-3ceeafe8-a99b-45ab-ab8d-8fdd5bb02e9b.mp4
 
 # Contributing
 * This project could use better optimization, however this was more of a learning project for me. So if you would like to contribute, I will accept pull requests.
