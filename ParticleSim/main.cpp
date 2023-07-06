@@ -9,7 +9,7 @@ const int SCREEN_HEIGHT = 720;
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "GravSim");
-	window.setFramerateLimit(60);
+	window.setFramerateLimit(144);
 	sf::Font font;
 	sf::Text FrameCounter;
 	FrameCounter.setFont(font);
@@ -23,7 +23,7 @@ int main()
 	Bodies.push_back(body);
 	Bodies.push_back(body2);
 
-	Particle particles(25000);
+	Particle particles(100000);
 	particles.SetPosition();
 
 

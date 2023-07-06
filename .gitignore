@@ -261,3 +261,11 @@ __pycache__/
 *.pyc
 
 *.ttf
+/ParticleSim/sfml-window-d-2.dll
+/ParticleSim/sfml-window-2.dll
+/ParticleSim/sfml-system-d-2.dll
+/ParticleSim/sfml-system-2.dll
+/ParticleSim/sfml-graphics-d-2.dll
+/ParticleSim/sfml-graphics-2.dll
+/ParticleSim/sfml-audio-d-2.dll
+/ParticleSim/sfml-audio-2.dll
