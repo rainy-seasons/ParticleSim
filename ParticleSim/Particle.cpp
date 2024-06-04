@@ -5,7 +5,7 @@ void Particle::SetPosition()
 {
 	for (std::size_t i = 0; i < m_particles.size(); i++)
 	{
-		m_vertices[i].position = sf::Vector2f(rand() % 300, rand() % 100);
+		m_vertices[i].position = sf::Vector2f(rand() % 600, rand() % 200);
 	}
 }
 
@@ -24,7 +24,7 @@ void Particle::Update(std::vector<Body>& bodies)
 			normalized_distance = inverse_distance * dist;
 
 			inverse_square = inverse_distance * inverse_distance; // Double the distance = 1/4th strength. 1/x * 1/x = ((1*1)/(x*x)) = 1/x^2
-			p.accel = normalized_distance * body.GetStrenth() * inverse_square; // Get the acceleration using inverse square
+			p.accel = normalized_distance * body.GetStrength() * inverse_square; // Get the acceleration using inverse square
 
 			p.velocity += p.accel;
 

@@ -8,18 +8,17 @@ private:
 	sf::CircleShape shape;
 
 public:
-	Body(float pos_x, float pos_y, float strength, sf::Color color = sf::Color::White)
+	Body(sf::Vector2f pos, float strength, sf::Color color = sf::Color::White)
 	{
-		position.x = pos_x;
-		position.y = pos_y;
+		position = pos;
 		this->strength = strength;
 
 		shape.setPosition(position);
 		shape.setFillColor(color);
-		shape.setRadius(8);
+		shape.setRadius(12);
 	}
 
-	void Render(sf::RenderWindow& window)
+	void Render(sf::RenderWindow& window) const
 	{
 		window.draw(shape);
 	}
@@ -29,8 +28,19 @@ public:
 		return this->position;
 	}
 
-	float GetStrenth()
+	void SetPosition(sf::Vector2f pos)
+	{
+		shape.setPosition(pos);
+		this->position = pos;
+	}
+
+	float GetStrength()
 	{
 		return this->strength;
+	}
+
+	sf::FloatRect GetBounds()
+	{
+		return shape.getGlobalBounds();
 	}
 };
