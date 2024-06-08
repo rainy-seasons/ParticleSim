@@ -5,7 +5,9 @@ class Particle : public sf::Drawable, public sf::Transformable
 public:
 	Particle(unsigned int count) :
 		m_particles(count),
-		m_vertices(sf::Points, count) {};
+		m_vertices(sf::Points, count) 
+	{};
+	//Particle(unsigned int count);
 
 	void Update(std::vector<Body>& bodies);
 	void SetPosition();
