@@ -13,8 +13,9 @@
 * Look at `Particle.cpp` to see the implementation.
 
 #### Video Demo
-[https://user-images.githubusercontent.com/6244191/229238686-2dcd7183-188c-4296-843b-ea87bcf17c09.mp4](https://github.com/rainy-seasons/ParticleSim/assets/6244191/9df7f582-845a-4e5f-83e2-c5bcce07eaad
-)
+https://github.com/rainy-seasons/ParticleSim/assets/6244191/48fed646-cca9-40ab-b5bd-9c3c68cb75d1
+
+
 
 # Contributing
 * This project could use better optimization, however this was more of a learning project for me. So if you would like to contribute, I will accept pull requests.
