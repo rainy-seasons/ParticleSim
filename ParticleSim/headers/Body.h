@@ -21,10 +21,10 @@ public:
 	void SetStrength(int str);
 	void SetColor(sf::Color color);
 
-	int GetStrength();
-	sf::Vector2f GetPosition();
-	sf::FloatRect GetBounds();
-	sf::Color GetColor();
+	int GetStrength() const;
+	sf::Vector2f GetPosition() const;
+	sf::FloatRect GetBounds() const;
+	sf::Color GetColor() const;
 
 
 };

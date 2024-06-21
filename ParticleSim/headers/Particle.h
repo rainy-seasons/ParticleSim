@@ -5,12 +5,15 @@ class Particle : public sf::Drawable, public sf::Transformable
 public:
 	Particle(unsigned int count) :
 		m_particles(count),
-		m_vertices(sf::Points, count) 
+		m_vertices(sf::Points, count),
+		m_count(count)
 	{};
 	//Particle(unsigned int count);
 
 	void Update(std::vector<Body>& bodies);
 	void SetPosition();
+	void SetCount(int n);
+	int  GetCount() const;
 
 private:
 	struct nParticle
@@ -26,6 +29,7 @@ private:
 	sf::Vector2f normalized_distance;
 
 	float hyp;
+	int   m_count;
 	float inverse_distance;
 	float inverse_square;
 

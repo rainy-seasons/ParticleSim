@@ -40,3 +40,15 @@ void Particle::Update(std::vector<Body>& bodies)
 		}
 	}
 }
+
+int Particle::GetCount() const
+{
+	return this->m_count;
+}
+
+void Particle::SetCount(int n)
+{
+	m_particles.resize(n);
+	m_vertices.resize(n);
+	m_count = n;
+}

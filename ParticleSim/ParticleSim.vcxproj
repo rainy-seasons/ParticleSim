@@ -135,11 +135,13 @@
     <ClCompile Include="libraries\imgui\imgui_tables.cpp" />
     <ClCompile Include="libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Body.cpp" />
+    <ClCompile Include="src\GUI.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Particle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="headers\Body.h" />
+    <ClInclude Include="headers\GUI.h" />
     <ClInclude Include="libraries\imgui\imconfig-SFML.h" />
     <ClInclude Include="libraries\imgui\imconfig.h" />
     <ClInclude Include="libraries\imgui\imgui-SFML.h" />

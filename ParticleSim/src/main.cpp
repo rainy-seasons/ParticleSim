@@ -5,7 +5,7 @@
 #include "imgui-SFML.h"
 #include "Body.h"
 #include "Particle.h"
-
+#include "GUI.h"
 
 const int SCREEN_WIDTH = 1280;
 const int SCREEN_HEIGHT = 720;
@@ -14,12 +14,15 @@ void UpdateBodies(sf::RenderWindow& window, std::vector<Body>& Bodies, std::thre
 void MoveBody(sf::RenderWindow& window, Body& body);
 void MoveBodyThreadHandler(sf::RenderWindow& window, std::thread& MoveBodyThread, Body& body);
 
+
 int main()
 {
 	bool isPaused = true;
+
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "GravSim");
 	ImGui::SFML::Init(window);
 	ImGui::StyleColorsDark;
+
 
 	window.setFramerateLimit(60);
 
@@ -35,9 +38,11 @@ int main()
 			Body(sf::Vector2f(200, 300), 400),
 	};
 
-	Particle particles(750000);
+	Particle particles(100000);
 
 	particles.SetPosition();
+
+	GUI* UI = new GUI(particles, isPaused); // Initialize GUI
 
 
 	if (!font.loadFromFile("verdana.ttf"))
@@ -62,35 +67,24 @@ int main()
 		}
 
 		ImGui::SFML::Update(window, clock.restart());
-		ImGui::Begin(" ");
-		ImGui::End();
+		ImGui::Begin("Controls");
 
+		UI->Render(window);
 
-		// Handle pausing / unpausing the simulation
-		if (ImGui::Button("Pause/Unpause"))
-		{
-			isPaused = !isPaused;
-		}
-		if (ImGui::Button("Restart"))
-		{
-			isPaused = true;
-			particles.SetPosition();
-		}
-		if (!isPaused)
-		{
-			particles.Update(Bodies);
-		}
+		if (!isPaused) { particles.Update(Bodies); } // Only update particle position if the simulation is not paused
 
 		window.clear();
 
 		window.draw(particles);
 
 		UpdateBodies(window, Bodies, MoveBodyThread);
+		ImGui::End();
 
 		//window.draw(FrameCounter);
 		ImGui::SFML::Render(window);
 		window.display();
 	}
+	delete(UI);
 	ImGui::SFML::Shutdown();
 
 	return 0;
@@ -101,9 +95,10 @@ void UpdateBodies(sf::RenderWindow& window, std::vector<Body>& Bodies, std::thre
 	// ImGui UI
 	if (ImGui::Button("Add Body"))
 	{
-		// Create a new body in the vector offset from the first Body's position
+		// Create a new body in the vector with position offset from the first Body's position
 		Bodies.push_back(Body(sf::Vector2f(Bodies[0].GetPosition().x + 25, Bodies[0].GetPosition().y + 25), 400));
 	}
+
 	for (size_t i = 0; i < Bodies.size(); ++i)
 	{
 		std::string bodyLabel = "Body " + std::to_string(i + 1);
@@ -128,11 +123,13 @@ void UpdateBodies(sf::RenderWindow& window, std::vector<Body>& Bodies, std::thre
 				Bodies[i].SetStrength(strength);
 			}
 
+			// Convert color for ImGui
 			sf::Color col = Bodies[i].GetColor();
 			float color[3] = { col.r / 255.0f, col.g / 255.0f, col.b / 255.0f };
 
 			if (ImGui::ColorEdit3("Color", color))
 			{
+				// Convert color back to sf::Color object
 				Bodies[i].SetColor(sf::Color(
 					static_cast<sf::Uint8>(color[0] * 255),
 					static_cast<sf::Uint8>(color[1] * 255),
@@ -147,6 +144,7 @@ void UpdateBodies(sf::RenderWindow& window, std::vector<Body>& Bodies, std::thre
 	}
 }
 
+// Updates the body position if it's being moved
 void MoveBody(sf::RenderWindow &window, Body &body)
 {
 	while (sf::Mouse::isButtonPressed(sf::Mouse::Left))
@@ -156,6 +154,7 @@ void MoveBody(sf::RenderWindow &window, Body &body)
 	}
 }
 
+// Handles the thread for moving bodies
 void MoveBodyThreadHandler(sf::RenderWindow& window, std::thread& MoveBodyThread, Body& body)
 {
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left) && body.GetBounds().contains(sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y))
